@@ -80,4 +80,18 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Attack", false);
         }
     }
+
+    public bool test;
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ore")
+        {
+            Debug.Log("Collision detected!");
+            test = false;
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+        else
+            test = true;
+    }
 }
