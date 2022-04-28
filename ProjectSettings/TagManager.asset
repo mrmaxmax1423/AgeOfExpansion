@@ -8,6 +8,12 @@ TagManager:
   - Ore
   - Test
   - ItemDrop
+  - Tree
+  - OreDrop
+  - WoodDrop
+  - Enemy
+  - EnemyWeapon
+  - craftItemTemplate
   layers:
   - Default
   - TransparentFX
