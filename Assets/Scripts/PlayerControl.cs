@@ -15,6 +15,9 @@ public class PlayerControl : MonoBehaviour
     public Rigidbody2D rb;
     private Vector2 moveDirection;
 
+    public GameObject Player;
+    public bool facingRight;
+
     public int health = 3;
     public static int oreCount;
     public static int woodCount;
@@ -29,9 +32,7 @@ public class PlayerControl : MonoBehaviour
 
     public bool axeOwned = false;
     // Update is called once per frame
-    private void Awake()
-    {
-    }
+
     void Update()
     {
         ProcessInputs();
@@ -43,9 +44,19 @@ public class PlayerControl : MonoBehaviour
     {
         Move();
 
-        if (moveX != 0)
+        if (moveX != 0) //if player inputs a move, make sure they face the direction of movement
         {
             animator.SetBool("Moving", true);
+            if(moveX == -1 && facingRight)
+            {
+                Player.transform.localScale = new Vector3(-6, 6, 1);
+                facingRight = false;
+            }
+            if(moveX == 1 && !facingRight)
+            {
+                Player.transform.localScale = new Vector3(6, 6, 1);
+                facingRight = true;
+            }
         }
         else
         {
@@ -53,6 +64,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public float timeLeft = 3f;
 
     void ProcessInputs()
     {
@@ -62,14 +74,14 @@ public class PlayerControl : MonoBehaviour
 
         moveDirection = new Vector2(moveX, moveY).normalized;
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            animator.SetBool("Attack", true);     
+        }
+
         if (moveX != 0)
         {
             animator.SetFloat("XDirection", moveX);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetBool("Attack", true);
         }
 
         //display crafting menu

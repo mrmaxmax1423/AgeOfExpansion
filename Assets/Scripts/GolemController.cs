@@ -1,7 +1,7 @@
 using System.Collections;
- using System.Collections.Generic;
- using UnityEngine;
- using UnityEngine.AI;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class GolemController : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class GolemController : MonoBehaviour
     public GameObject Enemy;
     public GameObject Anchor;
 
-    public int health = 50;
+    public int health = 10;
 
     private GameObject playerPoint;
     private Vector3 playerPointPos;
