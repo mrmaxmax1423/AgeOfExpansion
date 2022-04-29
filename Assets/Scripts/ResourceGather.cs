@@ -6,12 +6,14 @@ public class ResourceGather : MonoBehaviour
 {
     public GameObject oreDrop;
     public GameObject woodDrop;
+    public GameObject runePillarDrop;
     public int health = 5;
     public int dropAmount = 1;
     Vector3 spawnVariation;
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.tag == "Weapon")
+        if (collider.gameObject.tag == "Weapon")
         {
             health -= 1;
             if (health == 0)
@@ -26,6 +28,10 @@ public class ResourceGather : MonoBehaviour
                     if (gameObject.tag == "Tree")
                     {
                         Instantiate(woodDrop, gameObject.transform.position + spawnVariation, gameObject.transform.rotation);
+                    }
+                    if (gameObject.tag == "RunePillar")
+                    {
+                        Instantiate(runePillarDrop, gameObject.transform.position + spawnVariation, gameObject.transform.rotation);
                     }
                 }
             Destroy(gameObject);

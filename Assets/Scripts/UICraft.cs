@@ -12,6 +12,7 @@ public class UICraft : MonoBehaviour
     public int axe1WoodCost;
     public int axe1OreCost;
 
+
     public Sprite bow1;
     public string bow1Name;
     public int bow1WoodCost;

@@ -14,6 +14,10 @@ TagManager:
   - Enemy
   - EnemyWeapon
   - craftItemTemplate
+  - Golem
+  - GolemDrop
+  - RunePillar
+  - RuneStone
   layers:
   - Default
   - TransparentFX

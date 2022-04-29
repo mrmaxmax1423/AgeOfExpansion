@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
+    public Sprite lostHeart;
+    public Sprite fullHeart;
     public void Start()
     {
         animator = GetComponent<Animator>();
@@ -19,18 +22,31 @@ public class PlayerControl : MonoBehaviour
     public bool facingRight;
 
     public int health = 3;
+    private int deaths = 0;
+
     public static int oreCount;
     public static int woodCount;
 
+    public bool hasGolemDrop;
+    public bool hasRuneStone;
+    
     [SerializeField]
-    private Text oreCounter, woodCounter;
+    public Text oreCounter, woodCounter, oreWallet, woodWallet, deathCounter;
+
 
     public float moveY;
     public float moveX;
 
+    public Transform newGameTipsUI;
     public Transform craftingUI;
 
+    public GameObject heartContainer1;
+    public GameObject heartContainer2;
+    public GameObject heartContainer3;
+
     public bool axeOwned = false;
+
+    public float attackCooldown = .5f;
     // Update is called once per frame
 
     void Update()
@@ -38,6 +54,7 @@ public class PlayerControl : MonoBehaviour
         ProcessInputs();
         oreCounter.text = "Ore: " + oreCount;
         woodCounter.text = "Wood: " + woodCount;
+        
     }
 
     void FixedUpdate() //physics calcs due to fixed rate
@@ -62,9 +79,16 @@ public class PlayerControl : MonoBehaviour
         {
             animator.SetBool("Moving", false);
         }
+
+        if(attackCooldown <= 0)
+        {
+            animator.SetBool("Attack", false);
+        }
+        else
+            attackCooldown -= Time.deltaTime;
+
     }
 
-    public float timeLeft = 3f;
 
     void ProcessInputs()
     {
@@ -74,12 +98,13 @@ public class PlayerControl : MonoBehaviour
 
         moveDirection = new Vector2(moveX, moveY).normalized;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && animator.GetBool("Attack") == false && attackCooldown <= 0)
         {
-            animator.SetBool("Attack", true);     
+            animator.SetBool("Attack", true);
+            attackCooldown = .5f;
         }
 
-        if (moveX != 0)
+        if (moveX != 0 && animator.GetBool("Attack") == false)
         {
             animator.SetFloat("XDirection", moveX);
         }
@@ -96,8 +121,29 @@ public class PlayerControl : MonoBehaviour
                 craftingUI.gameObject.SetActive(true);
             }
         }
+        //toggle tips
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (newGameTipsUI.gameObject.activeSelf)
+            {
+                newGameTipsUI.gameObject.SetActive(false);
+            }
+            else
+            {
+                newGameTipsUI.gameObject.SetActive(true);
+            }
+        }
     }
+    public String currentWoodBal;
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "EnemyWeapon")//Enemy Hit
+        {
+            health -= 1;
+            HPUpdate();
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -112,10 +158,15 @@ public class PlayerControl : MonoBehaviour
             Destroy(collision.gameObject);
             woodCount += 1;
         }
-        //Enemy Hit
-        if (collision.gameObject.tag == "EnemyWeapon")
+        if (collision.gameObject.tag == "GolemDrop")
         {
-            health -= 1;
+            Destroy(collision.gameObject);
+            hasGolemDrop = true;
+        }
+        if (collision.gameObject.tag == "RuneStone")
+        {
+            Destroy(collision.gameObject);
+            hasRuneStone = true;
         }
     }
 
@@ -123,7 +174,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (animator.GetBool("Attack") == true)
         {
-            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+            rb.velocity = new Vector2(0, 0);
         }
         else
         {
@@ -137,6 +188,44 @@ public class PlayerControl : MonoBehaviour
         {
             animator.SetBool("Attack", false);
         }
+    }
+
+    void HPUpdate()
+    {
+        Image heartCont1;
+        heartCont1 = heartContainer1.GetComponent<Image>();
+        Image heartCont2;
+        heartCont2 = heartContainer2.GetComponent<Image>();
+        Image heartCont3;
+        heartCont3 = heartContainer3.GetComponent<Image>();
+
+        if (health == 3)
+        {
+            heartCont1.sprite = fullHeart;
+            heartCont2.sprite = fullHeart; 
+            heartCont3.sprite = fullHeart;
+        }
+        if(health == 2)
+        {
+            heartCont1.sprite = lostHeart;
+            heartCont2.sprite = fullHeart;
+            heartCont3.sprite = fullHeart;
+        }
+        if (health == 1)
+        {
+            heartCont1.sprite = lostHeart;
+            heartCont2.sprite = lostHeart;
+            heartCont3.sprite = fullHeart;
+        }
+        if(health == 0)
+        {
+            health = 3;
+            HPUpdate();
+            Player.transform.position = new Vector3(9.5f,-30.0f,0.0f);
+            deaths++;
+            deathCounter.text = "Deaths: " + deaths;
+        }
+
     }
 
 }

@@ -7,8 +7,10 @@ public class GolemController : MonoBehaviour
 {
     private Animator animator;
     public GameObject Player;
-    public GameObject Enemy;
+    public GameObject Golem;
     public GameObject Anchor;
+
+    public GameObject golemFist;
 
     public int health = 10;
 
@@ -33,7 +35,7 @@ public class GolemController : MonoBehaviour
 
         //Controls Golem Following, Turning, and Attacking
         playerPointPos = new Vector3(playerPoint.transform.position.x, playerPoint.transform.position.y, playerPoint.transform.position.z);
-        playerDistance = Vector3.Distance(Player.transform.position, Enemy.transform.position);
+        playerDistance = Vector3.Distance(Player.transform.position, Golem.transform.position);
         anchorDistance = Vector3.Distance(Player.transform.position, Anchor.transform.position);
         if(health > 0)
         {
@@ -46,7 +48,6 @@ public class GolemController : MonoBehaviour
             if (playerDistance < 1 || anchorDistance > 6.5)
             {
                 animator.SetBool("Moving", false);
-
             }
             if (playerDistance < 1.2 && animator.GetBool("Attacking") == false)
             {
@@ -57,14 +58,14 @@ public class GolemController : MonoBehaviour
                 animator.SetBool("Attacking", false);
             }
 
-            if (Player.transform.position.x > Enemy.transform.position.x)
+            if (Player.transform.position.x > Golem.transform.position.x)
             {
-                Enemy.transform.localScale = new Vector3(1, 1, 1);
+                Golem.transform.localScale = new Vector3(1, 1, 1);
             }
 
-            if (Player.transform.position.x < Enemy.transform.position.x)
+            if (Player.transform.position.x < Golem.transform.position.x)
             {
-                Enemy.transform.localScale = new Vector3(-1, 1, 1);
+                Golem.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
         
@@ -74,17 +75,20 @@ public class GolemController : MonoBehaviour
             timeLeft -= Time.deltaTime;
             if (timeLeft < 0)
             {
-                Destroy(Enemy);
+                Instantiate(golemFist, Golem.transform.position, Golem.transform.rotation);
+                Destroy(Golem);
             }
         }
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.tag == "Weapon")
+        if (collider.gameObject.tag == "Weapon")
         {
             health -= 1;
         }
     }
+
 
 }
