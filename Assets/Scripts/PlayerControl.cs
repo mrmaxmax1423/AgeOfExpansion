@@ -37,6 +37,9 @@ public class PlayerControl : MonoBehaviour
     public float moveY;
     public float moveX;
 
+    public Transform golemFistIndicator;
+    public Transform runeStoneIndicator;
+
     public Transform newGameTipsUI;
     public Transform craftingUI;
 
@@ -45,6 +48,8 @@ public class PlayerControl : MonoBehaviour
     public GameObject heartContainer3;
 
     public bool axeOwned = false;
+
+    public AudioSource hitSound;
 
     public float attackCooldown = .5f;
     // Update is called once per frame
@@ -161,11 +166,13 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.tag == "GolemDrop")
         {
             Destroy(collision.gameObject);
+            golemFistIndicator.gameObject.SetActive(true);
             hasGolemDrop = true;
         }
         if (collision.gameObject.tag == "RuneStone")
         {
             Destroy(collision.gameObject);
+            runeStoneIndicator.gameObject.SetActive(true);
             hasRuneStone = true;
         }
     }
@@ -207,18 +214,21 @@ public class PlayerControl : MonoBehaviour
         }
         if(health == 2)
         {
+            hitSound.Play();
             heartCont1.sprite = lostHeart;
             heartCont2.sprite = fullHeart;
             heartCont3.sprite = fullHeart;
         }
         if (health == 1)
         {
+            hitSound.Play();
             heartCont1.sprite = lostHeart;
             heartCont2.sprite = lostHeart;
             heartCont3.sprite = fullHeart;
         }
         if(health == 0)
         {
+            hitSound.Play();
             health = 3;
             HPUpdate();
             Player.transform.position = new Vector3(9.5f,-30.0f,0.0f);

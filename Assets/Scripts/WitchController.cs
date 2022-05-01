@@ -24,13 +24,15 @@ public class WitchController : MonoBehaviour
     public float witchAnchorDistance;
     private float speed = 3.0f;
 
+    public AudioSource recieveDamageSound;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         playerPoint = GameObject.Find("Player");
         enemyPoint = GameObject.Find("Enemy");
     }
-    public float attackCooldown = 3f;
+    public float attackCooldown = 1.5f;
     float attackXVel;
     float attackYVel;
     void FixedUpdate()
@@ -45,7 +47,7 @@ public class WitchController : MonoBehaviour
 
         if (health > 0)
         {
-            if (playerDistance < 6 && attackCooldown == 3)//witch attacks if player is near
+            if (playerDistance < 6 && attackCooldown == 1.5)//witch attacks if player is near
             {
                 attackXVel = 0f;
                 attackYVel = 0f;
@@ -68,9 +70,8 @@ public class WitchController : MonoBehaviour
                 }
                 GameObject newPotionAttack = Instantiate(potionAttack, Witch.transform.position, Witch.transform.rotation);
                 newPotionAttack.GetComponent<Rigidbody2D>().velocity = new Vector2(attackXVel, attackYVel);
-                if (attackXVel == 0 && attackYVel == 0)//ensure false fires don't occur
+                if ((attackXVel == 0 && attackYVel == 0))//ensure false fires don't occur
                     Destroy(newPotionAttack);
-
             }
 
             if (playerDistance > 5 && playerDistance < 10)
@@ -98,7 +99,7 @@ public class WitchController : MonoBehaviour
                 if (attackCooldown <= 0)
                 {
                     animator.SetBool("Attacking", false);
-                    attackCooldown = 3.0f;
+                    attackCooldown = 1.5f;
             }      
         }
 

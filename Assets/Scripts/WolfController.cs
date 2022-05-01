@@ -22,6 +22,7 @@ public class WolfController : MonoBehaviour
     public float wolfAnchorDistance;
     public float playerAnchorDistance;
     private float speed = 5.0f;
+    public AudioSource recieveDamageSound;
 
     void Start()
     {
@@ -33,17 +34,17 @@ public class WolfController : MonoBehaviour
     void FixedUpdate()
     {
 
-        //Controls Golem Following, Turning, and Attacking
+        
         playerPointPos = new Vector3(playerPoint.transform.position.x, playerPoint.transform.position.y, playerPoint.transform.position.z);
         anchorPointPos = new Vector3(Anchor.transform.position.x, Anchor.transform.position.y, Anchor.transform.position.z);
-
+        //determines player, enemy, and anchor distances from each other
         playerDistance = Vector3.Distance(Player.transform.position, Enemy.transform.position);
         wolfAnchorDistance = Vector3.Distance(Enemy.transform.position, Anchor.transform.position);
         playerAnchorDistance = Vector3.Distance(Player.transform.position, Anchor.transform.position);
 
-        if (health > 0)
+        if (health > 0) //if enemy is still alive
         {
-            if (playerAnchorDistance < 10 && playerDistance > 1.9)
+            if (playerAnchorDistance < 10 && playerDistance > 1.9)  //Run at player until in range
             {
                 transform.position = Vector3.MoveTowards(transform.position, playerPointPos, speed * Time.deltaTime);
                 animator.SetBool("Moving", true);
@@ -90,6 +91,7 @@ public class WolfController : MonoBehaviour
             }
         }
 
+        //if enemy dies
         if (health <= 0)
         {
             animator.SetBool("Alive", false);
@@ -106,9 +108,8 @@ public class WolfController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Weapon")
         {
+            recieveDamageSound.Play();
             health -= 1;
         }
     }
-
-
 }

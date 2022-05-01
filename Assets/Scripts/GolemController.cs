@@ -23,6 +23,8 @@ public class GolemController : MonoBehaviour
     public float anchorDistance;
     private float speed = 3.0f;
 
+    public AudioSource recieveDamageSound;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -86,6 +88,7 @@ public class GolemController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Weapon")
         {
+            recieveDamageSound.Play();
             health -= 1;
         }
     }

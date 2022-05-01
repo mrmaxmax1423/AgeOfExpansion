@@ -55,19 +55,22 @@
   <ItemGroup>
     <Compile Include="Assets\Cainos\Pixel Art Top Down - Basic\Script\TopDownCharacterController.cs" />
     <Compile Include="Assets\Scripts\UICraft.cs" />
+    <Compile Include="Assets\Scripts\UIToolTips.cs" />
     <Compile Include="Assets\Cainos\Pixel Art Top Down - Basic\Script\PropsAltar.cs" />
+    <Compile Include="Assets\Scripts\WitchController.cs" />
     <Compile Include="Assets\Cainos\Pixel Art Top Down - Basic\Script\SpriteColorAnimation.cs" />
+    <Compile Include="Assets\Scripts\BatController.cs" />
     <Compile Include="Assets\Scripts\ButtonBehavior.cs" />
+    <Compile Include="Assets\Scripts\WolfController.cs" />
     <Compile Include="Assets\Scripts\GolemController.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Cainos\Pixel Art Top Down - Basic\Script\LayerTrigger.cs" />
     <Compile Include="Assets\Scripts\ResourceGather.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
     <Compile Include="Assets\Cainos\Pixel Art Top Down - Basic\Script\CameraFollow.cs" />
-    <Compile Include="Assets\Scripts\UIToolTips.cs" />
-    <Compile Include="Assets\Scripts\WolfController.cs" />
-    <Compile Include="Assets\Scripts\BatController.cs" />
-    <Compile Include="Assets\Scripts\WitchController.cs" />
+    <Compile Include="Assets\Scripts\StartGolemCinematic.cs" />
+    <Compile Include="Assets\Scripts\StartWolfCinematic.cs" />
+    <Compile Include="Assets\Scripts\SceneSwitch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cainos\Pixel Art Top Down - Basic\Changelog.txt" />
@@ -734,6 +737,12 @@
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

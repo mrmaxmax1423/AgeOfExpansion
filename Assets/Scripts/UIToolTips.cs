@@ -15,11 +15,6 @@ public class UIToolTips : MonoBehaviour
     public float distanceFromGolemTip;
     public float distanceFromWolfTip;
 
-    void Start()
-    {
-
-    }
-
     void FixedUpdate()
     {
         //makes tips display when character is near trigger

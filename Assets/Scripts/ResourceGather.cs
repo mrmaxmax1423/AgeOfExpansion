@@ -11,11 +11,15 @@ public class ResourceGather : MonoBehaviour
     public int dropAmount = 1;
     Vector3 spawnVariation;
 
+    public AudioSource miningSound;
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag == "Weapon")
         {
+
             health -= 1;
+            miningSound.Play();
             if (health == 0)
             {
                 for (int i = 0; i < dropAmount; i++)
